@@ -9,7 +9,7 @@ ignore_empty = p.toolkit.get_validator('ignore_empty')
 DEFAULT_AGS_FORMATS = ['ags']
 
 
-class AGSView(plugins.SingletonPlugin):
+class AGSView(p.SingletonPlugin):
     '''This plugin makes views of arcgis online resources'''
 
     p.implements(p.IConfigurer, inherit=True)
@@ -22,7 +22,9 @@ class AGSView(plugins.SingletonPlugin):
         return {'name': 'ags_view',
                 'title': p.toolkit._('ArcGIS Server'),
                 'icon': 'compass',
-                'schema': {'map_url': [ignore_empty, unicode]},
+                'schema': {
+                    'ags_url': [ignore_empty, unicode]
+                    },
                 'iframed': False,
                 'always_available': True,
                 'default_title': p.toolkit._('ArcGIS Server'),
