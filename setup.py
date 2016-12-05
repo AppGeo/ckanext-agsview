@@ -28,7 +28,7 @@ setup(
     author_email='''''',
 
     # Choose your license
-    license='AGPL',
+    license='MIT',
 
     # See https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
@@ -39,7 +39,7 @@ setup(
         'Development Status :: 4 - Beta',
 
         # Pick your license as you wish (should match "license" above)
-        'License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)',
+        'License :: OSI Approved :: MIT License',
 
         # Specify the Python versions you support here. In particular, ensure
         # that you indicate whether you support Python 2, Python 3 or both.
@@ -48,7 +48,7 @@ setup(
 
 
     # What does your project relate to?
-    keywords='''CKAN Geospaital ESRI''',
+    keywords='''CKAN ESRI ArcGIS Server''',
 
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
@@ -80,10 +80,7 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points='''
         [ckan.plugins]
-        agsview=ckanext.agsview.plugin:AgsviewPlugin
-
-        [babel.extractors]
-        ckan = ckan.lib.extract:extract_ckan
+        ags_view=ckanext.agsview.plugin:AGSView
     ''',
 
     # If you are changing from the default layout of your extension, you may
