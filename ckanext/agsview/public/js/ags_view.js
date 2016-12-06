@@ -1,5 +1,6 @@
 // geojson preview module
 ckan.module('agsview', function (jQuery, _) {
+  console.log(jQuery.jquery);
   return {
     options: {
       table: '<div class="table-container"><table class="table table-striped table-bordered table-condensed"><tbody>{body}</tbody></table></div>',
@@ -39,7 +40,17 @@ ckan.module('agsview', function (jQuery, _) {
         if (error) {
           throw error;
         }
-        self.map.fitBounds(L.esri.Util.extentToBounds(metadata.extent))
+        var extent = metadata.extent;
+        var wkid = extent.spatialReference.latestWkid;
+        var url = 'http://epsg.io/' + wkid + '.proj4';
+
+        jQuery.ajax(url).done(function (d) {
+          var prj = proj4(d);
+          var bl = prj.inverse([extent.xmin, extent.ymin]);
+          var tr = prj.inverse([extent.xmax, extent.ymax]);
+          self.map.fitBounds([bl.reverse(), tr.reverse()]);
+        })
+
         console.log(metadata);
       });
     },
