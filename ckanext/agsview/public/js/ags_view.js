@@ -1,5 +1,5 @@
 // geojson preview module
-ckan.module('geojsonpreview', function (jQuery, _) {
+ckan.module('agsview', function (jQuery, _) {
   return {
     options: {
       table: '<div class="table-container"><table class="table table-striped table-bordered table-condensed"><tbody>{body}</tbody></table></div>',
@@ -22,19 +22,35 @@ ckan.module('geojsonpreview', function (jQuery, _) {
 
       // hack to make leaflet use a particular location to look for images
       L.Icon.Default.imagePath = this.options.site_url + 'img/leaflet';
-      var path = preload_resource['url'];
-      if (path.match(/\/MapServer\/\d\d?\d?/))
-      jQuery.getJSON(preload_resource['url']).done(
-        function(data){
-          self.showPreview(data);
-        })
-      .fail(
-        function(jqXHR, textStatus, errorThrown) {
-          self.showError(jqXHR, textStatus, errorThrown);
-        }
-      );
+      var path = this.options.path;
+      if (path.match(/\/(?:MapServer|FeatureServer)\/\d{1,3}\/?$/)) {
+          this.loadJson(path);
+      } else if (path.match(/\/MapServer$/)) {
+        this.loadDynamic(path);
+      }
     },
-
+    loadJson: function (path) {
+      var self = this;
+      this.layer =  L.esri.featureLayer({
+          url: path
+      })
+      this.layer.addTo(map);
+      this.layer.metadata(function(error, metadata){
+        if (error) {
+          throw error;
+        }
+        self.map.fitBounds(L.esri.Util.extentToBounds(metadata.extent))
+        console.log(metadata);
+      });
+    },
+    loadDynamic: function (path) {
+      this.layer =  L.esri.dynamicMapLayer({
+            url: path,
+            opacity: 0.25,
+            useCors: false
+        });
+        this.layer.addTo(map);
+    },
     showError: function (jqXHR, textStatus, errorThrown) {
       if (textStatus == 'error' && jqXHR.responseText.length) {
         this.el.html(jqXHR.responseText);
