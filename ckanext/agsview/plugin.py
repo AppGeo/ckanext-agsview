@@ -27,7 +27,7 @@ class AGSView(p.SingletonPlugin):
                 'schema': {
                     'ags_url': [ignore_empty, unicode]
                     },
-                'iframed': true,
+                'iframed': False,
                 'default_title': p.toolkit._('ArcGIS Server'),
                 }
 
