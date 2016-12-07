@@ -1,22 +1,24 @@
-
 #data-preview {
-  height: 600px;
-  padding: 0;
-  margin: 0;
-  background: none;
+    height: 0;
+    padding-bottom: 56.25%;
+    position: relative;
+    background: none;
 }
 
 #map {
-  position: absolute;
-  width: 100%;
-  height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    max-height: 600px;
 }
 
-#map .table{
-  width: 300px;
+#map .table {
+    width: 300px;
 }
 
-#map .table-container{
-  height: 300px;
-  overflow: auto;
+#map .table-container {
+    height: 300px;
+    overflow: auto;
 }
