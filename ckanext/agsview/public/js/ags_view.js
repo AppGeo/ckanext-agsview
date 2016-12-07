@@ -106,6 +106,24 @@ ckan.module('agsview', function (jQuery, _) {
         this.el.html(this.i18n('error', {text: textStatus, error: errorThrown}));
       }
     },
+    getMetaData: function () {
+      var self = this;
+      this.layer.metadata(function(error, metadata){
+        if (error) {
+          throw error;
+        }
+        var extent = metadata.extent || metadata.initialExtent || metadata.fullExtent;
+        var wkid = extent.spatialReference.latestWkid;
+
+        self.getProj(wkid).then(function (d) {
+          var prj = proj4(d);
+          var bl = prj.inverse([extent.xmin, extent.ymin]);
+          var tr = prj.inverse([extent.xmax, extent.ymax]);
+          self.map.fitBounds([bl.reverse(), tr.reverse()]);
+        })
+
+      });
+    },
     showPreview: function (geojsonFeature) {
       var self = this;
       var gjLayer = L.geoJson(geojsonFeature, {
