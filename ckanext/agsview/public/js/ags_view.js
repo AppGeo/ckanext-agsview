@@ -36,6 +36,25 @@ ckan.module('agsview', function (jQuery, _) {
           url: path
       })
       this.layer.addTo(map);
+      this.getMetaData();
+    },
+    loadDynamic: function (path) {
+      this.layer =  L.esri.dynamicMapLayer({
+            url: path,
+            opacity: 0.25,
+            useCors: false
+        });
+        this.layer.addTo(map);
+        this.getMetaData();
+    },
+    showError: function (jqXHR, textStatus, errorThrown) {
+      if (textStatus == 'error' && jqXHR.responseText.length) {
+        this.el.html(jqXHR.responseText);
+      } else {
+        this.el.html(this.i18n('error', {text: textStatus, error: errorThrown}));
+      }
+    },
+    getMetaData: function () {
       this.layer.metadata(function(error, metadata){
         if (error) {
           throw error;
@@ -54,22 +73,6 @@ ckan.module('agsview', function (jQuery, _) {
         console.log(metadata);
       });
     },
-    loadDynamic: function (path) {
-      this.layer =  L.esri.dynamicMapLayer({
-            url: path,
-            opacity: 0.25,
-            useCors: false
-        });
-        this.layer.addTo(map);
-    },
-    showError: function (jqXHR, textStatus, errorThrown) {
-      if (textStatus == 'error' && jqXHR.responseText.length) {
-        this.el.html(jqXHR.responseText);
-      } else {
-        this.el.html(this.i18n('error', {text: textStatus, error: errorThrown}));
-      }
-    },
-
     showPreview: function (geojsonFeature) {
       var self = this;
       var gjLayer = L.geoJson(geojsonFeature, {
