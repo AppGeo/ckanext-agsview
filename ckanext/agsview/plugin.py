@@ -5,15 +5,9 @@ import ckan.plugins as p
 
 log = logging.getLogger(__name__)
 ignore_empty = p.toolkit.get_validator('ignore_empty')
-ignore_missing = p.toolkit.get_validator('ignore_missing')
 
 
 DEFAULT_AGS_FORMATS = ['ags']
-
-
-def default_ags_url():
-    value = p.toolkit.get('', False)
-    return 'test'
 
 
 class AGSFSView(p.SingletonPlugin):
@@ -48,7 +42,3 @@ class AGSFSView(p.SingletonPlugin):
 
     def form_template(self, context, data_dict):
         return 'ags_fs_form.html'
-
-    def get_helpers(self):
-        return{
-            'ags_fs_view_default_ags_url': default_ags_url}
