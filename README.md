@@ -16,3 +16,13 @@ sed -i.bak -e "s/ckan.views.default_views = image_view text_view recline_view/ck
 sudo service apache2 reload
 
 ```
+
+# potential configuration
+
+[] set defaults in configuration
+    [] extent (x,y,z)
+    [] basemap tile set (url)
+[] allow for 2 urls
+    [] feature class or dynamic map
+    [] tile map
+[] allow to pass extent values
