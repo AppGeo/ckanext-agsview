@@ -14,6 +14,8 @@ ckan.module('agsview', function (jQuery, _) {
         'error': _('An error occurred: %(text)s %(error)s')
       }
     },
+    projs: {},
+    cache: {},
     initialize: function () {
       var self = this;
 
@@ -38,14 +40,64 @@ ckan.module('agsview', function (jQuery, _) {
       this.layer.addTo(map);
       this.getMetaData();
     },
+    isTiled: function(metadata) {
+      return metadata.singleFusedMapCache
+        && metadata.tileInfo
+        && metadata.tileInfo.spatialReference
+        && metadata.tileInfo.spatialReference.wkid === 102100;
+    },
+    getInfo: function (path) {
+      if (this.cache[path]) {
+        return Promise.resolve(this.cache[path]);
+      }
+      var self = this;
+      return Promise.resolve(jQuery.ajax({
+        url: path,
+        dataType: 'jsonp',
+        data: {
+          f: 'json'
+        }
+      }).done(function (d) {
+        this.cache[path] = d;
+      }));
+    },
     loadDynamic: function (path) {
-      this.layer =  L.esri.dynamicMapLayer({
-            url: path,
-            opacity: 0.25,
-            useCors: false
+      var self = this;
+      this.getInfo(path).then(function (metadata) {
+        if (self.isTiled(metadata)) {
+          self.layer =  L.esri.tiledMapLayer({
+              url: path
+          });
+        } else {
+          self.layer =  L.esri.dynamicMapLayer({
+              url: path
+          });
+        }
+        self.layer.addTo(map);
+        var extent = metadata.extent || metadata.initialExtent || metadata.fullExtent;
+        var wkid = extent.spatialReference.latestWkid;
+        return self.getProj(wkid).then(function (d) {
+          var prj = proj4(d);
+          var bl = prj.inverse([extent.xmin, extent.ymin]);
+          var tr = prj.inverse([extent.xmax, extent.ymax]);
+          self.map.fitBounds([bl.reverse(), tr.reverse()]);
         });
-        this.layer.addTo(map);
-        this.getMetaData();
+      });
+    },
+    getProj: function(wkid) {
+      var self = this;
+      if (!this.projs[wkid] && proj4.defs('EPSG:' + wkid)) {
+        this.projs[wkid] = proj4.defs('EPSG:' + wkid);
+      }
+      if (this.projs[wkid]) {
+        return Promise.resolve(this.projs[wkid]);
+      }
+      var url = 'http://epsg.io/' + wkid + '.proj4';
+
+      return Promise.resolve(jQuery.ajax(url).done(function (d) {
+        self.projs[wkid] = d;
+        return d;
+      }));
     },
     showError: function (jqXHR, textStatus, errorThrown) {
       if (textStatus == 'error' && jqXHR.responseText.length) {
@@ -53,25 +105,6 @@ ckan.module('agsview', function (jQuery, _) {
       } else {
         this.el.html(this.i18n('error', {text: textStatus, error: errorThrown}));
       }
-    },
-    getMetaData: function () {
-      this.layer.metadata(function(error, metadata){
-        if (error) {
-          throw error;
-        }
-        var extent = metadata.extent || metadata.fullExtent;
-        var wkid = extent.spatialReference.latestWkid;
-        var url = 'http://epsg.io/' + wkid + '.proj4';
-
-        jQuery.ajax(url).done(function (d) {
-          var prj = proj4(d);
-          var bl = prj.inverse([extent.xmin, extent.ymin]);
-          var tr = prj.inverse([extent.xmax, extent.ymax]);
-          self.map.fitBounds([bl.reverse(), tr.reverse()]);
-        })
-
-        console.log(metadata);
-      });
     },
     showPreview: function (geojsonFeature) {
       var self = this;
