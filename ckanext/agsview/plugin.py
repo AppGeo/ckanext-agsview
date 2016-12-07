@@ -2,8 +2,7 @@
 
 import logging
 import ckan.plugins as p
-import ckan.lib.helpers as h
-
+from ckan.common import c
 
 log = logging.getLogger(__name__)
 ignore_empty = p.toolkit.get_validator('ignore_empty')
@@ -31,8 +30,8 @@ class AGSFSView(p.SingletonPlugin):
                 'schema': {
                     'ags_url': [ignore_empty, unicode],
                     'basemap_url': [ignore_empty, unicode],
-                    'default_ags_url': [ignore_missing, config.get('ckanext.ags_fs_view.default_ags_url', False)],
-                    'default_basemap_url': [ignore_missing, config.get('ckanext.ags_fs_view.default_basemap_url', False)]
+                    'default_ags_url': [ignore_missing, c.get('ckanext.ags_fs_view.default_ags_url', False)],
+                    'default_basemap_url': [ignore_missing, c.get('ckanext.ags_fs_view.default_basemap_url', False)]
                 },
                 'iframed': False,
                 'default_title': p.toolkit._('ArcGIS FeatureServer Service'),
