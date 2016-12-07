@@ -17,8 +17,23 @@ sudo service apache2 reload
 
 ```
 
+# get json query in spatial ref from ags_view
+
+```
+http://gis.cityofboston.gov/arcgis/rest/services/Planning/OpenData/MapServer/0/query?where=0=0&Fields=*&returnGeometry=true&returnIdsOnly=false&f=json&outSR=3857&geometryType=esriGeometryEnvelope&groupByFieldsForStatistics=
+
+&geometryType=esriGeometryEnvelope
+&returnGeometry=true
+&returnIdsOnly=false
+&returnCountOnly=false
+&groupByFieldsForStatistics=sub_region
+&outStatistics=[{"statisticType":"sum","onStatisticField":"pop2007","outStatisticFieldName":"Population_2007"},{"statisticType":"avg","onStatisticField":"AVE_FAM_SZ","outStatisticFieldName":"Average_Family_Size"}]
+&f=pjson
+```
+
 # potential configuration
 
+[] split into two classes ags_ms_view / ags_fs_view
 [] set defaults in configuration
     [] extent (x,y,z)
     [] basemap tile set (url)
@@ -26,3 +41,4 @@ sudo service apache2 reload
     [] feature class or dynamic map
     [] tile map
 [] allow to pass extent values
+[] esri basemap options???

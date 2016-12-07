@@ -80,7 +80,7 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points='''
         [ckan.plugins]
-        ags_view=ckanext.agsview.plugin:AGSView
+        ags_fs_view=ckanext.agsview.plugin:AGSFSView
     ''',
 
     # If you are changing from the default layout of your extension, you may
