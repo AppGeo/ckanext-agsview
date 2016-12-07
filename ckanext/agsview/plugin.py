@@ -2,7 +2,6 @@
 
 import logging
 import ckan.plugins as p
-import ckan.lib.helpers as h
 
 log = logging.getLogger(__name__)
 ignore_empty = p.toolkit.get_validator('ignore_empty')
@@ -12,9 +11,9 @@ ignore_missing = p.toolkit.get_validator('ignore_missing')
 DEFAULT_AGS_FORMATS = ['ags']
 
 
-def set_default_ags_url(default_ags_url, context):
-    if not username and context.get('auth_user_obj').sysadmin:
-        username = h.config.get('ckanext.ags_fs_view.default_ags_url')
+def default_ags_url():
+    value = p.toolkit.get('', False)
+    return 'test'
 
 
 class AGSFSView(p.SingletonPlugin):
@@ -34,8 +33,7 @@ class AGSFSView(p.SingletonPlugin):
                 'icon': 'compass',
                 'schema': {
                     'ags_url': [ignore_empty, unicode],
-                    'basemap_url': [ignore_empty, unicode],
-                    'default_ags_url': [ignore_missing, set_default_ags_url]
+                    'basemap_url': [ignore_empty, unicode]
                 },
                 'iframed': False,
                 'default_title': p.toolkit._('ArcGIS FeatureServer Service'),
@@ -50,3 +48,7 @@ class AGSFSView(p.SingletonPlugin):
 
     def form_template(self, context, data_dict):
         return 'ags_fs_form.html'
+
+    def get_helpers(self):
+        return{
+            'ags_fs_view_default_ags_url': default_ags_url}

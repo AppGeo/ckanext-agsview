@@ -2,12 +2,9 @@
   data-module="agsfsview"
   id="data-preview"
   data-module-site_url="{{ h.dump_json(h.url('/', locale='default', qualified=true)) }}"
-  data-module-path="{{ resource_view.get('ags_url') or resource_view.get('default_ags_url') }}"
-  data-module-basemap="{{ resource_view.get('basemap_url') or resource_view.get('default_basemap_url') }}">
+  data-module-path="{{ resource_view.get('ags_url') or '??' }}"
+  data-module-basemap="{{ resource_view.get('basemap_url') or '??' }}">
     <h4 class="loading-dialog">
-      <br/>--<br/>
-      <br/>{{ resource_view.get('default_ags_url') }}
-      <br/>--<br/>
       <div class="loading-spinner"></div>
       <div class="left">{{ _('Loading...') }}</div>
     </h4>
