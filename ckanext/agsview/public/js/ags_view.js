@@ -59,7 +59,7 @@ ckan.module('agsview', function (jQuery, _) {
         if (error) {
           throw error;
         }
-        var extent = metadata.extent;
+        var extent = metadata.extent || metadata.fullExtent;
         var wkid = extent.spatialReference.latestWkid;
         var url = 'http://epsg.io/' + wkid + '.proj4';
 
