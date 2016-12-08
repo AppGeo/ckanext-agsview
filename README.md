@@ -32,15 +32,11 @@ python setup.py install
 ## update config file on ckan machine
 
 - add ags_fs_view and/or ags_ms_view to plugins in the ini file
-- add the following config attributes to the ini file
-
-  - ckanext.agsview.default_ags_url
-  - ckanext.agsview.default_basemap_url
+- add ckanext.agsview.default_basemap_url parameter to the config file in the plugin section
 
 ```
 sed -i.bak -e "s/ckan.plugins = /ckan.plugins = ags_fs_view ags_ms_view /g" /etc/ckan/default/production.ini
-echo "" >> /etc/ckan/default/production.ini
-echo "ckanext.ags_view_default_basemap_url = Gray" >>/etc/ckan/default/production.ini
+sed -i.bak '/^ckan.plugins/a ckanext.ags_view_default_basemap_url = Gray' /etc/ckan/default/production.ini
 ```
 
 ## reload apache ckan Service
