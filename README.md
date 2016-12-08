@@ -40,3 +40,11 @@ python setup.py install
 
   - ckanext.agsview.default_ags_url
   - ckanext.agsview.default_basemap_url
+
+## reload apache ckan Service
+
+# useful endpoints
+
+- dynamic mapserver: http://gis.cityofboston.gov/arcgis/rest/services/CityServices/OpenData/MapServer
+- tiled mapserver: http://gis.cityofboston.gov/arcgis/rest/services/Basemaps/base_map_webmercatorV2/MapServer
+- layer: http://gis.cityofboston.gov/arcgis/rest/services/CityServices/OpenData/MapServer/0
