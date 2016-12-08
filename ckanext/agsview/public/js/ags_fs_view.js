@@ -1,6 +1,5 @@
 // geojson preview module
 ckan.module('ags_fs_view', function (jQuery, _) {
-  console.log(jQuery.jquery);
   return {
     options: {
       table: '<div class="table-container"><table class="table table-striped table-bordered table-condensed"><tbody>{body}</tbody></table></div>',
@@ -21,7 +20,7 @@ ckan.module('ags_fs_view', function (jQuery, _) {
 
       self.el.empty();
       self.el.append($("<div></div>").attr("id","map"));
-      self.map = ckan.commonLeafletMap('map', this.options.map_config);
+      self.map = ckan.commonLeafletMap('map', this.options);
 
       // hack to make leaflet use a particular location to look for images
       L.Icon.Default.imagePath = this.options.site_url + 'img/leaflet';

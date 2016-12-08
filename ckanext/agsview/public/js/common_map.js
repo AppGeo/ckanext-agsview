@@ -24,36 +24,26 @@
    * Returns a Leaflet map object.
    */
   ckan.commonLeafletMap = function (container,
-                                    mapConfig,
-                                    leafletMapOptions,
-                                    leafletBaseLayerOptions) {
+                                    config) {
 
       var isHttps = window.location.href.substring(0, 5).toLowerCase() === 'https';
-      var mapConfig = mapConfig || {type: 'stamen'};
-      var leafletMapOptions = leafletMapOptions || {};
-      var leafletBaseLayerOptions = jQuery.extend(leafletBaseLayerOptions, {
+      var mapConfig =  {type: 'stamen'};
+      if (config.basemap && typeof config.basemap === 'string') {
+        mapConfig = {
+          type: 'custom',
+          url: config.basemap
+        }
+      }
+
+      var leafletBaseLayerOptions = {
                 maxZoom: 18
-                });
+                }
 
-      map = new L.Map(container, leafletMapOptions);
+      map = new L.Map(container, leafletBaseLayerOptions);
 
-      if (mapConfig.type == 'mapbox') {
-          // MapBox base map
-          if (!mapConfig['mapbox.map_id'] || !mapConfig['mapbox.access_token']) {
-            throw '[CKAN Map Widgets] You need to provide a map ID ([account].[handle]) and an access token when using a MapBox layer. ' +
-                  'See http://www.mapbox.com/developers/api-overview/ for details';
-          }
-
-          baseLayerUrl = '//{s}.tiles.mapbox.com/v4/' + mapConfig['mapbox.map_id'] + '/{z}/{x}/{y}.png?access_token=' + mapConfig['mapbox.access_token'];
-          leafletBaseLayerOptions.handle = mapConfig['mapbox.map_id'];
-          leafletBaseLayerOptions.subdomains = mapConfig.subdomains || 'abcd';
-          leafletBaseLayerOptions.attribution = mapConfig.attribution || 'Data: <a href="http://osm.org/copyright" target="_blank">OpenStreetMap</a>, Design: <a href="http://mapbox.com/about/maps" target="_blank">MapBox</a>';
-      } else if (mapConfig.type == 'custom') {
+      if (mapConfig.type == 'custom') {
           // Custom XYZ layer
-          baseLayerUrl = mapConfig['custom.url'];
-          if (mapConfig.subdomains) leafletBaseLayerOptions.subdomains = mapConfig.subdomains;
-          if (mapConfig.tms) leafletBaseLayerOptions.tms = mapConfig.tms;
-          leafletBaseLayerOptions.attribution = mapConfig.attribution;
+          baseLayerUrl = mapConfig.url;
       } else {
           // Default to Stamen base map
           baseLayerUrl = 'https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png';
