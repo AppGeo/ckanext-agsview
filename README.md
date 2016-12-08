@@ -10,11 +10,7 @@
 
 - [ ] esri basemap options???
 
-- [ ] set default values in config file (.ini)
-
-  - [ ] ags_url
-  - [ ] layer_ids
-  - [ ] basemap_url
+- [ ] make default basemap configurable (.ini)
 
 # setup
 
@@ -41,10 +37,20 @@ python setup.py install
   - ckanext.agsview.default_ags_url
   - ckanext.agsview.default_basemap_url
 
+```
+sed -i.bak -e "s/ckan.plugins = /ckan.plugins = ags_fs_view ags_ms_view /g" /etc/ckan/default/production.ini
+echo "" >> /etc/ckan/default/production.ini
+echo "ckanext.ags_view_default_basemap_url = Gray" >>/etc/ckan/default/production.ini
+```
+
 ## reload apache ckan Service
+
+```
+sudo service apache2 reload
+```
 
 # useful endpoints
 
-- dynamic mapserver: http://gis.cityofboston.gov/arcgis/rest/services/CityServices/OpenData/MapServer
-- tiled mapserver: http://gis.cityofboston.gov/arcgis/rest/services/Basemaps/base_map_webmercatorV2/MapServer
-- layer: http://gis.cityofboston.gov/arcgis/rest/services/CityServices/OpenData/MapServer/0
+- dynamic mapserver: <http://gis.cityofboston.gov/arcgis/rest/services/CityServices/OpenData/MapServer>
+- tiled mapserver: <http://gis.cityofboston.gov/arcgis/rest/services/Basemaps/base_map_webmercatorV2/MapServer>
+- layer: <http://gis.cityofboston.gov/arcgis/rest/services/CityServices/OpenData/MapServer/0>
