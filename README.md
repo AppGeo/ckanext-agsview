@@ -8,13 +8,13 @@
   - [x] mapserver tiled
   - [x] mapserver dynamic
 
-- [] esri basemap options???
+- [ ] esri basemap options???
 
-- [] set default values in config file (.ini)
+- [ ] set default values in config file (.ini)
 
-  - [] ags_url
-  - [] layer_ids
-  - [] basemap_url
+  - [ ] ags_url
+  - [ ] layer_ids
+  - [ ] basemap_url
 
 # setup
 
