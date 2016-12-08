@@ -1,14 +1,14 @@
 <div>{{ h.ags_view_get_config_item() }}</div>
 <div
-  data-module="agsfsview"
+  data-module="ags_fs_view"
   id="data-preview"
   data-module-site_url="{{ h.dump_json(h.url('/', locale='default', qualified=true)) }}"
-  data-module-path="{{ resource_view.get('ags_url') or '??' }}"
-  data-module-basemap="{{ resource_view.get('basemap_url') or '??' }}">
+  data-module-path="{{ resource_view.get('ags_url') or '' }}"
+  data-module-basemap="{{ resource_view.get('basemap_url') or '' }}">
     <h4 class="loading-dialog">
       <div class="loading-spinner"></div>
       <div class="left">{{ _('Loading...') }}</div>
     </h4>
 
 </div>
-{% resource 'ckanext-agsview/agsview' %}
+{% resource 'ckanext-agsview/ags_fs_view' %}

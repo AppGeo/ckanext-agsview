@@ -1,5 +1,5 @@
 // geojson preview module
-ckan.module('ags_fs_view', function (jQuery, _) {
+ckan.module('ags_ms_view', function (jQuery, _) {
   return {
     options: {
       table: '<div class="table-container"><table class="table table-striped table-bordered table-condensed"><tbody>{body}</tbody></table></div>',
@@ -17,7 +17,6 @@ ckan.module('ags_fs_view', function (jQuery, _) {
     cache: {},
     initialize: function () {
       var self = this;
-
       self.el.empty();
       self.el.append($("<div></div>").attr("id","map"));
       self.map = ckan.commonLeafletMap('map', this.options);
@@ -25,7 +24,12 @@ ckan.module('ags_fs_view', function (jQuery, _) {
       // hack to make leaflet use a particular location to look for images
       L.Icon.Default.imagePath = this.options.site_url + 'img/leaflet';
       var path = this.options.path;
-      this.loadJson(path);
+      var match = path.match(/\/MapServer\/(\d{1,3})\/$/)
+      if (match) {
+        this.loadDynamic(path, match[0]);
+      } else {
+        this.loadDynamic(path);
+      }
     },
     loadJson: function (path) {
       var self = this;
@@ -56,17 +60,24 @@ ckan.module('ags_fs_view', function (jQuery, _) {
         this.cache[path] = d;
       }));
     },
-    loadDynamic: function (path) {
+    loadDynamic: function (path, layer) {
       var self = this;
       this.getInfo(path).then(function (metadata) {
-        if (self.isTiled(metadata)) {
+        if (self.isTiled(metadata) && !layer) {
           self.layer =  L.esri.tiledMapLayer({
               url: path
           });
         } else {
-          self.layer =  L.esri.dynamicMapLayer({
-              url: path
-          });
+          if (layer) {
+            self.layer =  L.esri.dynamicMapLayer({
+                url: path,
+                layers: layer.split(',')
+            });
+          } else {
+            self.layer =  L.esri.dynamicMapLayer({
+                url: path
+            });
+          }
         }
         self.layer.addTo(map);
         var extent = metadata.extent || metadata.initialExtent || metadata.fullExtent;
