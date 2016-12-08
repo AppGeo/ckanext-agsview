@@ -24,12 +24,13 @@ ckan.module('ags_ms_view', function (jQuery, _) {
       // hack to make leaflet use a particular location to look for images
       L.Icon.Default.imagePath = this.options.site_url + 'img/leaflet';
       var path = this.options.path;
-      var match = path.match(/\/MapServer\/(\d{1,3})\/$/)
-      if (match) {
-        this.loadDynamic(path, match[0]);
-      } else {
-        this.loadDynamic(path);
+      var layers;
+      if (typeof this.options.layer_ids === 'string') {
+        layers = this.options.layer_ids.split(',');
+      } else if (typeof this.options.layer_ids === 'number') {
+        layers = [this.options.layer_ids];
       }
+      this.loadDynamic(path,layers);
     },
     loadJson: function (path) {
       var self = this;
@@ -71,7 +72,7 @@ ckan.module('ags_ms_view', function (jQuery, _) {
           if (layer) {
             self.layer =  L.esri.dynamicMapLayer({
                 url: path,
-                layers: layer.split(','),
+                layers: layer,
                 f: 'image'
             });
           } else {
