@@ -1,44 +1,42 @@
-# setup for development
+# todo
+
+- [x] split into two classes ags_ms_view / ags_fs_view
+- [x] set extent defaults dynamically
+- [x] allow for multiple inputs
+
+  - [x] layer (JSON)
+  - [x] mapserver tiled
+  - [x] mapserver dynamic
+
+- [] esri basemap options???
+
+- [] set default values in config file (.ini)
+
+  - [] ags_url
+  - [] layer_ids
+  - [] basemap_url
+
+# setup
+
+## install extension on ckan machine
+
+- activate ckan python environment
+- cd into folder with the setup.py file
+- run setup.py
+
+  - use install if no development is needed
+  - use develop if you are developing files locally (e.g. Updating template file)
 
 ```
 . /usr/lib/ckan/default/bin/activate
-pip install --upgrade pip
-cd ~/git/guidos/ckanext-geoview/
-python setup.py develop
-
+cd ~/git/guidos/ckanext-agsview/
+python setup.py install
 ```
 
-# add geojson_view
+## update config file on ckan machine
 
-```
-sed -i.bak -e "s/ckan.plugins = stats text_view image_view recline_view datastore/ckan.plugins = stats text_view image_view recline_view datastore ags_fs_view/g" /etc/ckan/default/production.ini
-sed -i.bak -e "s/ckan.views.default_views = image_view text_view recline_view/ckan.views.default_views = image_view text_view recline_view ags_fs_view/g" /etc/ckan/default/production.ini
-sudo service apache2 reload
+- add ags_fs_view and/or ags_ms_view to plugins in the ini file
+- add the following config attributes to the ini file
 
-```
-
-# get json query in spatial ref from ags_view
-
-```
-http://gis.cityofboston.gov/arcgis/rest/services/Planning/OpenData/MapServer/0/query?where=0=0&Fields=*&returnGeometry=true&returnIdsOnly=false&f=json&outSR=3857&geometryType=esriGeometryEnvelope&groupByFieldsForStatistics=
-
-&geometryType=esriGeometryEnvelope
-&returnGeometry=true
-&returnIdsOnly=false
-&returnCountOnly=false
-&groupByFieldsForStatistics=sub_region
-&outStatistics=[{"statisticType":"sum","onStatisticField":"pop2007","outStatisticFieldName":"Population_2007"},{"statisticType":"avg","onStatisticField":"AVE_FAM_SZ","outStatisticFieldName":"Average_Family_Size"}]
-&f=pjson
-```
-
-# potential configuration
-
-[] split into two classes ags_ms_view / ags_fs_view
-[] set defaults in configuration
-    [] extent (x,y,z)
-    [] basemap tile set (url)
-[] allow for 2 urls
-    [] feature class or dynamic map
-    [] tile map
-[] allow to pass extent values
-[] esri basemap options???
+  - ckanext.agsview.default_ags_url
+  - ckanext.agsview.default_basemap_url

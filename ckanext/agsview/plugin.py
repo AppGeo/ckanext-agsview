@@ -2,6 +2,8 @@
 
 import logging
 import ckan.plugins as p
+from ckan.common import config
+
 
 log = logging.getLogger(__name__)
 ignore_empty = p.toolkit.get_validator('ignore_empty')
@@ -10,8 +12,8 @@ ignore_empty = p.toolkit.get_validator('ignore_empty')
 DEFAULT_AGS_FORMATS = ['ags']
 
 
-def get_config_item():
-    return 'test'
+def get_config_item(item):
+    return config.get(item)
 
 
 class AGSFSView(p.SingletonPlugin):
@@ -21,10 +23,24 @@ class AGSFSView(p.SingletonPlugin):
     p.implements(p.IResourceView, inherit=True)
     p.implements(p.ITemplateHelpers, inherit=True)
 
+    # IConfigurer
+
     def update_config(self, config):
         p.toolkit.add_public_directory(config, 'public')
         p.toolkit.add_template_directory(config, 'templates')
         p.toolkit.add_resource('public', 'ckanext-agsview')
+
+    # IResourceView
+
+    def can_view(self, data_dict):
+        return (data_dict['resource'].get('format', '').lower()
+                in DEFAULT_AGS_FORMATS)
+
+    def view_template(self, context, data_dict):
+        return 'ags_fs_view.html'
+
+    def form_template(self, context, data_dict):
+        return 'ags_fs_form.html'
 
     def info(self):
         return {'name': 'ags_fs_view',
@@ -38,15 +54,7 @@ class AGSFSView(p.SingletonPlugin):
                 'default_title': p.toolkit._('ArcGIS FeatureServer Service'),
                 }
 
-    def can_view(self, data_dict):
-        return (data_dict['resource'].get('format', '').lower()
-                in DEFAULT_AGS_FORMATS)
-
-    def view_template(self, context, data_dict):
-        return 'ags_fs_view.html'
-
-    def form_template(self, context, data_dict):
-        return 'ags_fs_form.html'
+    # ITemplateHelpers
 
     def get_helpers(self):
         h = {'ags_view_get_config_item': get_config_item}
