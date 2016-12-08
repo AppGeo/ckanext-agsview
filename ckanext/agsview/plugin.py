@@ -10,11 +10,16 @@ ignore_empty = p.toolkit.get_validator('ignore_empty')
 DEFAULT_AGS_FORMATS = ['ags']
 
 
+def get_config_item():
+    return 'test'
+
+
 class AGSFSView(p.SingletonPlugin):
     '''This plugin makes views of arcgis FeatureServer services'''
 
     p.implements(p.IConfigurer, inherit=True)
     p.implements(p.IResourceView, inherit=True)
+    p.implements(p.ITemplateHelpers, inherit=True)
 
     def update_config(self, config):
         p.toolkit.add_public_directory(config, 'public')
@@ -42,6 +47,10 @@ class AGSFSView(p.SingletonPlugin):
 
     def form_template(self, context, data_dict):
         return 'ags_fs_form.html'
+
+    def get_helpers(self):
+        h = {'ags_view_get_config_item': get_config_item}
+        return h
 
 
 class AGSMSView(p.SingletonPlugin):
