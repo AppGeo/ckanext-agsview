@@ -81,6 +81,7 @@ setup(
     entry_points='''
         [ckan.plugins]
         ags_fs_view=ckanext.agsview.plugin:AGSFSView
+        ags_ms_view=ckanext.agsview.plugin:AGSMSView
     ''',
 
     # If you are changing from the default layout of your extension, you may

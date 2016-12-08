@@ -11,7 +11,7 @@ DEFAULT_AGS_FORMATS = ['ags']
 
 
 class AGSFSView(p.SingletonPlugin):
-    '''This plugin makes views of arcgis online resources'''
+    '''This plugin makes views of arcgis FeatureServer services'''
 
     p.implements(p.IConfigurer, inherit=True)
     p.implements(p.IResourceView, inherit=True)
@@ -42,3 +42,38 @@ class AGSFSView(p.SingletonPlugin):
 
     def form_template(self, context, data_dict):
         return 'ags_fs_form.html'
+
+
+class AGSMSView(p.SingletonPlugin):
+    '''This plugin makes views of arcgis MapServer services'''
+
+    p.implements(p.IConfigurer, inherit=True)
+    p.implements(p.IResourceView, inherit=True)
+
+    def update_config(self, config):
+        p.toolkit.add_public_directory(config, 'public')
+        p.toolkit.add_template_directory(config, 'templates')
+        p.toolkit.add_resource('public', 'ckanext-agsview')
+
+    def info(self):
+        return {'name': 'ags_fs_view',
+                'title': p.toolkit._('ArcGIS MapServer Service'),
+                'icon': 'compass',
+                'schema': {
+                    'ags_url': [ignore_empty, unicode],
+                    'basemap_url': [ignore_empty, unicode],
+                    'layer_ids': [ignore_empty, unicode]
+                },
+                'iframed': False,
+                'default_title': p.toolkit._('ArcGIS MapServer Service'),
+                }
+
+    def can_view(self, data_dict):
+        return (data_dict['resource'].get('format', '').lower()
+                in DEFAULT_AGS_FORMATS)
+
+    def view_template(self, context, data_dict):
+        return 'ags_ms_view.html'
+
+    def form_template(self, context, data_dict):
+        return 'ags_ms_form.html'
