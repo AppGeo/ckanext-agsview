@@ -12,8 +12,8 @@ ignore_empty = p.toolkit.get_validator('ignore_empty')
 DEFAULT_AGS_FORMATS = ['ags']
 
 
-def get_config_item(item):
-    return config.get(item)
+def ags_view_default_basemap_url():
+    return config.get('ckanext.ags_view_default_basemap_url', '')
 
 
 class AGSFSView(p.SingletonPlugin):
@@ -57,7 +57,7 @@ class AGSFSView(p.SingletonPlugin):
     # ITemplateHelpers
 
     def get_helpers(self):
-        h = {'ags_view_get_config_item': get_config_item}
+        h = {'ags_view_default_basemap_url': ags_view_default_basemap_url}
         return h
 
 
