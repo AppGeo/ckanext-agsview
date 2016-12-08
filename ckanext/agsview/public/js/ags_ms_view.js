@@ -26,7 +26,12 @@ ckan.module('agsview', function (jQuery, _) {
       // hack to make leaflet use a particular location to look for images
       L.Icon.Default.imagePath = this.options.site_url + 'img/leaflet';
       var path = this.options.path;
-      this.loadJson(path);
+      var match = path.match(/\/MapServer\/(\d{1,3})\/$/)
+      if (match) {
+        this.loadDynamic(path, match[0]);
+      } else {
+        this.loadDynamic(path);
+      }
     },
     loadJson: function (path) {
       var self = this;
@@ -57,17 +62,24 @@ ckan.module('agsview', function (jQuery, _) {
         this.cache[path] = d;
       }));
     },
-    loadDynamic: function (path) {
+    loadDynamic: function (path, layer) {
       var self = this;
       this.getInfo(path).then(function (metadata) {
-        if (self.isTiled(metadata)) {
+        if (self.isTiled(metadata) && !layer) {
           self.layer =  L.esri.tiledMapLayer({
               url: path
           });
         } else {
-          self.layer =  L.esri.dynamicMapLayer({
-              url: path
-          });
+          if (layer) {
+            self.layer =  L.esri.dynamicMapLayer({
+                url: path,
+                layers: layer
+            });
+          } else {
+            self.layer =  L.esri.dynamicMapLayer({
+                url: path
+            });
+          }
         }
         self.layer.addTo(map);
         var extent = metadata.extent || metadata.initialExtent || metadata.fullExtent;
