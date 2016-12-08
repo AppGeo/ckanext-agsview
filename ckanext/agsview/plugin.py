@@ -56,7 +56,7 @@ class AGSMSView(p.SingletonPlugin):
         p.toolkit.add_resource('public', 'ckanext-agsview')
 
     def info(self):
-        return {'name': 'ags_fs_view',
+        return {'name': 'ags_ms_view',
                 'title': p.toolkit._('ArcGIS MapServer Service'),
                 'icon': 'compass',
                 'schema': {
