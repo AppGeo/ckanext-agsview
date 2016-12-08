@@ -21,7 +21,7 @@ class AGSFSView(p.SingletonPlugin):
 
     p.implements(p.IConfigurer, inherit=True)
     p.implements(p.IResourceView, inherit=True)
-    p.implements(p.ITemplateHelpers, inherit=True)
+    # p.implements(p.ITemplateHelpers, inherit=True)
 
     # IConfigurer
 
