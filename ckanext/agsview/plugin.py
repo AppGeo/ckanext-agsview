@@ -12,8 +12,8 @@ ignore_empty = p.toolkit.get_validator('ignore_empty')
 DEFAULT_AGS_FORMATS = ['ags']
 
 
-def get_config_item(item):
-    return config.get(item)
+# def get_config_item(item):
+#     return config.get(item)
 
 
 class AGSFSView(p.SingletonPlugin):
@@ -56,9 +56,9 @@ class AGSFSView(p.SingletonPlugin):
 
     # ITemplateHelpers
 
-    def get_helpers(self):
-        h = {'ags_view_get_config_item': get_config_item}
-        return h
+    # def get_helpers(self):
+    #     h = {'ags_view_get_config_item': get_config_item}
+    #     return h
 
 
 class AGSMSView(p.SingletonPlugin):
