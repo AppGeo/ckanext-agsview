@@ -71,11 +71,13 @@ ckan.module('ags_ms_view', function (jQuery, _) {
           if (layer) {
             self.layer =  L.esri.dynamicMapLayer({
                 url: path,
-                layers: layer.split(',')
+                layers: layer.split(','),
+                f: 'image'
             });
           } else {
             self.layer =  L.esri.dynamicMapLayer({
-                url: path
+                url: path,
+                f: 'image'
             });
           }
         }
