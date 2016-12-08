@@ -1,5 +1,5 @@
 // geojson preview module
-ckan.module('agsview', function (jQuery, _) {
+ckan.module('ags_fs_view', function (jQuery, _) {
   console.log(jQuery.jquery);
   return {
     options: {

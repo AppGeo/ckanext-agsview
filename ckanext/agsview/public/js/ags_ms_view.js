@@ -1,5 +1,5 @@
 // geojson preview module
-ckan.module('agsview', function (jQuery, _) {
+ckan.module('ags_ms_view', function (jQuery, _) {
   console.log(jQuery.jquery);
   return {
     options: {
@@ -73,7 +73,7 @@ ckan.module('agsview', function (jQuery, _) {
           if (layer) {
             self.layer =  L.esri.dynamicMapLayer({
                 url: path,
-                layers: layer
+                layers: layer.split(',')
             });
           } else {
             self.layer =  L.esri.dynamicMapLayer({
