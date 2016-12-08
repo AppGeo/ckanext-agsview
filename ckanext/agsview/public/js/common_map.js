@@ -23,12 +23,18 @@
    *
    * Returns a Leaflet map object.
    */
+   var basemaps = [
+     'Streets','Topographic','Oceans','OceansLabels','NationalGeographic','Gray','GrayLabels','DarkGray','DarkGrayLabels','Imagery','ImageryLabels','ImageryTransportation','ShadedRelief','ShadedReliefLabels','Terrain','TerrainLabels','USATopo',
+   ];
+   function checkBasemap(url) {
+     return url.indexOf('{x}') > -1 && url.indexOf('{y}') > -1 && url.indexOf('{z}') > -1
+   }
   ckan.commonLeafletMap = function (container,
                                     config) {
 
       var isHttps = window.location.href.substring(0, 5).toLowerCase() === 'https';
       var mapConfig =  {type: 'stamen'};
-      if (config.basemap && typeof config.basemap === 'string') {
+      if (config.basemap && typeof config.basemap === 'string' && checkBasemap(config.basemap)) {
         mapConfig = {
           type: 'custom',
           url: config.basemap
@@ -40,20 +46,23 @@
                 }
 
       map = new L.Map(container, leafletBaseLayerOptions);
-
-      if (mapConfig.type == 'custom') {
-          // Custom XYZ layer
-          baseLayerUrl = mapConfig.url;
+      if (typeof config.basemap === 'string' && basemaps.indexOf(config.basemap) > -1) {
+        var esriLayer = new L.esri.BasemapLayer(config.basemap);
+        map.addLayer(esriLayer);
       } else {
-          // Default to Stamen base map
-          baseLayerUrl = 'https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png';
-          leafletBaseLayerOptions.subdomains = mapConfig.subdomains || 'abcd';
-          leafletBaseLayerOptions.attribution = mapConfig.attribution || 'Map tiles by <a href="http://stamen.com">Stamen Design</a> (<a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>). Data by <a href="http://openstreetmap.org">OpenStreetMap</a> (<a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>)';
-      }
+        if (mapConfig.type == 'custom') {
+            // Custom XYZ layer
+            baseLayerUrl = mapConfig.url;
+        } else {
+            // Default to Stamen base map
+            baseLayerUrl = 'https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png';
+            leafletBaseLayerOptions.subdomains = mapConfig.subdomains || 'abcd';
+            leafletBaseLayerOptions.attribution = mapConfig.attribution || 'Map tiles by <a href="http://stamen.com">Stamen Design</a> (<a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>). Data by <a href="http://openstreetmap.org">OpenStreetMap</a> (<a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>)';
+        }
 
-      var baseLayer = new L.TileLayer(baseLayerUrl, leafletBaseLayerOptions);
-      map.addLayer(baseLayer);
-
+        var baseLayer = new L.TileLayer(baseLayerUrl, leafletBaseLayerOptions);
+        map.addLayer(baseLayer);
+  }
       return map;
 
   }
