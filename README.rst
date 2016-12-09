@@ -21,7 +21,7 @@ To install ckanext-agsview on a production site:
 
 3. Add ``ags_fs_view`` and/or ``ags_ms_view`` to the ``ckan.plugins`` setting in your CKAN config (ini) file (by default the config file is located at ``/etc/ckan/default/production.ini``)::
 
-    ckan.plugins = ... ags_fs_view ags_ags_ms_view
+    ckan.plugins = ... ags_fs_view ags_ms_view
 
 4. Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu::
 
