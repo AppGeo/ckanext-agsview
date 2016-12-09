@@ -5,66 +5,6 @@ ckanext-agsview - Esri ArcGIS Server CKAN resources
 This extension contains view plugins to display ArcGIS Map services (cached,
 dynamic) and Feature layer services in CKAN. It uses an `Esri Leaflet Viewer <https://github.com/Esri/esri-leaflet>`_ for display.
 
-------------
-Installation
-------------
-
-To install ckanext-agsview on a production site:
-
-1. Activate your CKAN virtual environment, for example::
-
-    . /usr/lib/ckan/default/bin/activate
-
-2. Install the ckanext-agsview Python package into your virtual environment::
-
-    pip install ckanext-agsview
-
-3. Add ``ags_fs_view`` and/or ``ags_ms_view`` to the ``ckan.plugins`` setting in your CKAN config (ini) file (by default the config file is located at ``/etc/ckan/default/production.ini``)::
-
-    ckan.plugins = ... ags_fs_view ags_ms_view
-
-4. Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu::
-
-     sudo service apache2 reload
-
-------------------------
-Development Installation
-------------------------
-
-To install ckanext-agsview for development:
-
-1. Clone the source::
-
-    cd /usr/lib/ckan/default/src
-    git clone https://github.com/ckan/ckanext-geoview.git
-
-2. Activate your CKAN virtual environment, for example::
-
-    . /usr/lib/ckan/default/bin/activate
-
-3. Install the ckanext-agsview Python package into your python virtual environment::
-
-    cd ckanext-agsview
-    python setup.py develop
-
-4. Continue with the main installation instructions above (step 3 onwards).
-
-Quick development Install
--------------------------
-
-1. Copy the following code into a shell script named **setup-agsview.sh** and update the paths as needed::
-
-    . /usr/lib/ckan/default/bin/activate
-    cd ~/projects/ckanext-agsview/
-    python setup.py install
-    sed -i.bak -e "s/ckan.plugins = /ckan.plugins = ags_fs_view ags_ms_view /g" /etc/ckan/default/production.ini
-    sed -i.bak '/^ckan.plugins/a ckanext.ags_view_default_basemap_url = Gray' /etc/ckan/default/production.ini
-    sudo service apache2 reload
-
-3. Run the shell script from the command line::
-
-    sh setup-agsview.sh
-
 -----------------
 Available plugins
 -----------------
@@ -124,3 +64,64 @@ Can accept `Esri basemap name <http://esri.github.io/esri-leaflet/api-reference/
 ::
 
   ckanext.agsview.default_basemap_url = http://example.com/MapServer/tile//{z}/{x}/{y}
+
+
+------------
+Installation
+------------
+
+To install ckanext-agsview on a production site:
+
+1. Activate your CKAN virtual environment, for example::
+
+    . /usr/lib/ckan/default/bin/activate
+
+2. Install the ckanext-agsview Python package into your virtual environment::
+
+    pip install ckanext-agsview
+
+3. Add ``ags_fs_view`` and/or ``ags_ms_view`` to the ``ckan.plugins`` setting in your CKAN config (ini) file (by default the config file is located at ``/etc/ckan/default/production.ini``)::
+
+    ckan.plugins = ... ags_fs_view ags_ms_view
+
+4. Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu::
+
+     sudo service apache2 reload
+
+------------------------
+Development Installation
+------------------------
+
+To install ckanext-agsview for development:
+
+1. Clone the source::
+
+    cd /usr/lib/ckan/default/src
+    git clone https://github.com/ckan/ckanext-geoview.git
+
+2. Activate your CKAN virtual environment, for example::
+
+    . /usr/lib/ckan/default/bin/activate
+
+3. Install the ckanext-agsview Python package into your python virtual environment::
+
+    cd ckanext-agsview
+    python setup.py develop
+
+4. Continue with the main installation instructions above (step 3 onwards).
+
+Quick development Install
+-------------------------
+
+1. Copy the following code into a shell script named **setup-agsview.sh** and update the paths as needed::
+
+    . /usr/lib/ckan/default/bin/activate
+    cd ~/projects/ckanext-agsview/
+    python setup.py install
+    sed -i.bak -e "s/ckan.plugins = /ckan.plugins = ags_fs_view ags_ms_view /g" /etc/ckan/default/production.ini
+    sed -i.bak '/^ckan.plugins/a ckanext.ags_view_default_basemap_url = Gray' /etc/ckan/default/production.ini
+    sudo service apache2 reload
+
+3. Run the shell script from the command line::
+
+    sh setup-agsview.sh
