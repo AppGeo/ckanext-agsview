@@ -97,7 +97,7 @@ To install ckanext-agsview for development:
 1. Clone the source::
 
     cd /usr/lib/ckan/default/src
-    git clone https://github.com/ckan/ckanext-geoview.git
+    git clone https://github.com/ckan/ckanext-agsview.git
 
 2. Activate your CKAN virtual environment, for example::
 
