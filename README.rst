@@ -117,7 +117,7 @@ Quick development Install
 
     . /usr/lib/ckan/default/bin/activate
     cd ~/projects/ckanext-agsview/
-    python setup.py install
+    python setup.py develop
     sed -i.bak -e "s/ckan.plugins = /ckan.plugins = ags_fs_view ags_ms_view /g" /etc/ckan/default/production.ini
     sed -i.bak '/^ckan.plugins/a ckanext.ags_view_default_basemap_url = Gray' /etc/ckan/default/production.ini
     sudo service apache2 reload
