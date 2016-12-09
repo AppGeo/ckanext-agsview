@@ -23,7 +23,7 @@ ckan.module('ags_fs_view', function (jQuery, _) {
       self.map = ckan.commonLeafletMap('map', this.options);
 
       // hack to make leaflet use a particular location to look for images
-      L.Icon.Default.imagePath = this.options.site_url + 'img/leaflet';
+      L.Icon.Default.imagePath = this.options.site_url + 'img/leaflet/';
       var path = this.options.path;
       this.loadJson(path);
     },
