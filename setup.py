@@ -32,7 +32,6 @@ setup(
     keywords='''CKAN esri ArcGIS Server MapServer FeatureServer GIS''',
     packages=find_packages(exclude=['contrib', 'docs', 'tests*']),
     namespace_packages=['ckanext'],
-
     entry_points='''
         [ckan.plugins]
         ags_fs_view=ckanext.agsview.plugin:AGSFSView

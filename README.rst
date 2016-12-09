@@ -54,76 +54,24 @@ To install ckanext-agsview for development:
 Available plugins
 -----------------
 
-* `OpenLayers Viewer`_
-* `Leaflet GeoJSON Viewer`_
-* `Leaflet WMTS Viewer`_
+* `ArcGIS Feature Layer Viewer`_
+* `ArcGIS Map Service Viewer`_
 
 
-OpenLayers Viewer
+ArcGIS Feature Layer Viewer
 -----------------
 
-.. image:: http://i.imgur.com/wCQm2Uh.jpg
+The ArcGIS Feature Layer Viewer viewer provides access to different ArcGIS Feature Layers within a MapService or FeatureService:
 
-The OpenLayers_ viewer provides access to different geospatial formats and services:
+To enable it, add ``ags_fs_view`` to your ``ckan.plugins`` setting::
 
-To enable it, add ``geo_view`` to your ``ckan.plugins`` setting. (use ``geo_preview`` if you are using CKAN < 2.3)::
+    ckan.plugins = ...  ags_fs_view
 
-    ckan.plugins = ... resource_proxy geo_view
+Available configuration options are:
 
-On CKAN >= 2.3, if you want the geospatial views to be created by default, add the plugin to the following setting::
-
-
-    ckan.views.default_views = ... geo_view
-
-The formats and services supported are:
-
-========================= ===================
-Type                      Resource format (*)
-========================= ===================
-Web Map Service (WMS)     ``wms``
-Web Feature Service (WFS) ``wfs``
-GeoJSON                   ``geojson``
-GML                       ``gml``
-KML                       ``kml``
-ArcGIS REST API           ``arcgis_rest``
-Google Fusion Tables      ``gft``
-========================= ===================
-
-(*) Resource formats are case insensitive
-
-Support varies across formats, so you might want to deactivate the ones you are not interested in.
-To choose which formats to display, set the following configuration option::
-
-    ckanext.geoview.ol_viewer.formats = wms kml
-
-To render Google Fusion Tables resources, a Google API Key must be provided in the ini file::
-
-    ckanext.geoview.gapi_key = <API Key here>
-
-This key must be granted Fusion Tables permissions. More information on obtaining such a key can be found at https://developers.google.com/fusiontables/docs/v1/using#APIKey.
-
-All configuration options relating to the OpenLayers viewer (ie those prefixed with `ckanext.geoview.ol_viewer.*`)
-are passed to the JavaScript module, where they are accessible on the `options.ol_config` object::
-
-    this.ckan.module('olpreview', function (jQuery, _) {
-
-        // ...
-
-        _onReady: function () {
-
-
-            console.log(this.options.ol_config)
-
-        }
-
-        // ...
-
-    }
-
-Other available configuration options are:
-
- * `ckanext.geoview.ol_viewer.hide_overlays`: if set to True, overlays won't be visible by default (only the base layer)
- * `ckanext.geoview.ol_viewer.default_feature_hoveron`: if set to True, feature data popup will be displayed when hovering on
+ * `ckanext.agsview.default_basemap_url`: Can accept a `esri basemap name <http://esri.github.io/esri-leaflet/api-reference/layers/basemap-layer.html>` (e.g 
+ Gray) or
+ generic tile url
 
 
 Each instance of a view has the following configuration options that can override the global configuration :
@@ -313,7 +261,4 @@ To publish a new version to PyPI follow these steps:
        git push --tags
 
 .. _Philippe Duchesne: https://github.com/pduchesne
-.. _OpenLayers: http://openlayers.org
 .. _Leaflet: http://leafletjs.com/
-.. _GeoJSON: http://geojson.org/
-.. _ckanext-spatial: https://github.com/ckan/ckanext-spatial
