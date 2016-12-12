@@ -1,5 +1,3 @@
 include README.rst
 include LICENSE
-recursive-include ckanext/agsview *.html *.json *.js *.less *.css *.mo
-recursive-include /ckanext/agsview/public *
-recursive-include /ckanext/agsview/templates *
+recursive-include ckanext/agsview *.html *.json *.js *.less *.css *.config *.png *.gif *.jpg

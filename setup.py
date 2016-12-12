@@ -12,7 +12,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='''ckanext-agsview''',
-    version='0.1.4',
+    version='0.1.5',
 
     description='''An extension contains that display ArcGIS Map services (cached,
     dynamic) and Feature layer services in CKAN.''',
