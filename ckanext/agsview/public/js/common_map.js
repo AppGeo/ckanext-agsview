@@ -66,5 +66,49 @@
       return map;
 
   }
-
+  function singleFeature(item) {
+    var properties = item.properties;
+    var keys = Object.keys(properties);
+    return '<div>' + keys.map(function (key) {
+      var value = properties[key];
+      return '<span><strong>' + key + ':</strong> ' + value + '</span>';
+    }).join('<br/>') + '</div>';
+  }
+  function manyFeatures(featureCollection) {
+    return  '<div>' + featureCollection.features.map(function (item, i) {
+      return '<div><h3>Feature: ' + (i + 1) + '</h3><div>'  + singleFeature(item) + '</div></div><br/><br/>';
+    }) + '</div>';
+  }
+  ckan.commonDynamicLayerInfo = function (layer) {
+    layer.bindPopup(function (err, featureCollection) {
+      if (err || !featureCollection || !featureCollection.features || !featureCollection.features.length) {
+        return false;
+      }
+      if (featureCollection.features.length === 1) {
+        return singleFeature(featureCollection.features[0])
+      }
+      return manyFeatures(featureCollection);
+    });
+  };
+  ckan.commonTiledLayerInfo = function (layer) {
+    layer.bindPopup('<span></span>');
+    layer.on('click', function (e) {
+      layer.setPopupContent('<span>loading</span>');
+      layer.identify().at(e.latlng).run(function (err, featureCollection) {
+        if (err) {
+          layer.setPopupContent('<span><strong>Error</strong>: ' + err && err.toString()+'</span>');
+          return;
+        }
+        if (!featureCollection || !featureCollection.features || !featureCollection.features.length) {
+          layer.setPopupContent('<span>No features found</span>');
+          return;
+        }
+        if (featureCollection.features.length === 1) {
+          layer.setPopupContent(singleFeature(featureCollection.features[0]));
+          return;
+        }
+        return layer.setPopupContent(manyFeatures(featureCollection));
+      });
+    })
+  };
 })(this.ckan, this.jQuery);

@@ -68,6 +68,7 @@ ckan.module('ags_ms_view', function (jQuery, _) {
           self.layer =  L.esri.tiledMapLayer({
               url: path
           });
+          ckan.commonTiledLayerInfo(self.layer);
         } else {
           if (layer) {
             self.layer =  L.esri.dynamicMapLayer({
@@ -81,6 +82,7 @@ ckan.module('ags_ms_view', function (jQuery, _) {
                 f: 'image'
             });
           }
+          ckan.commonDynamicLayerInfo(self.layer);
         }
         self.layer.addTo(map);
         var extent = metadata.extent || metadata.initialExtent || metadata.fullExtent;

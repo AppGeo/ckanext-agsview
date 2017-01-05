@@ -63,10 +63,12 @@ ckan.module('ags_fs_view', function (jQuery, _) {
           self.layer =  L.esri.tiledMapLayer({
               url: path
           });
+          ckan.commonDynamicLayerInfo(self.layer);
         } else {
           self.layer =  L.esri.dynamicMapLayer({
               url: path
           });
+          ckan.commonTiledLayerInfo(self.layer, self.map);
         }
         self.layer.addTo(map);
         var extent = metadata.extent || metadata.initialExtent || metadata.fullExtent;
