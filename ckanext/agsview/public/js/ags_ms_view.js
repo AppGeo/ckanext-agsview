@@ -19,7 +19,7 @@ ckan.module('ags_ms_view', function (jQuery, _) {
       var self = this;
       self.el.empty();
       self.el.append($("<div></div>").attr("id","map"));
-      self.map = ckan.commonLeafletMap('map', this.options);
+      self.map = ckan.agsCreatemap('map', this.options);
 
       // hack to make leaflet use a particular location to look for images
       L.Icon.Default.imagePath = this.options.site_url + 'img/leaflet/';
@@ -68,6 +68,7 @@ ckan.module('ags_ms_view', function (jQuery, _) {
           self.layer =  L.esri.tiledMapLayer({
               url: path
           });
+          ckan.commonTiledLayerInfo(self.layer);
         } else {
           if (layer) {
             self.layer =  L.esri.dynamicMapLayer({
@@ -81,6 +82,7 @@ ckan.module('ags_ms_view', function (jQuery, _) {
                 f: 'image'
             });
           }
+          ckan.commonDynamicLayerInfo(self.layer);
         }
         self.layer.addTo(map);
         var extent = metadata.extent || metadata.initialExtent || metadata.fullExtent;

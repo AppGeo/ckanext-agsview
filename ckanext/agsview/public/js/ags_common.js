@@ -29,7 +29,7 @@
    function checkBasemap(url) {
      return url.indexOf('{x}') > -1 && url.indexOf('{y}') > -1 && url.indexOf('{z}') > -1
    }
-  ckan.commonLeafletMap = function (container,
+  ckan.agsCreatemap = function (container,
                                     config) {
 
       var isHttps = window.location.href.substring(0, 5).toLowerCase() === 'https';
@@ -66,5 +66,54 @@
       return map;
 
   }
-
+  function singleFeature(item) {
+    var properties = item.properties;
+    var keys = Object.keys(properties);
+    return '<div>' + keys.map(function (key) {
+      var value = properties[key];
+      return '<span><strong>' + key + ':</strong> ' + value + '</span>';
+    }).join('<br/>') + '</div>';
+  }
+  ckan.singleFeature = singleFeature;
+  function manyFeatures(featureCollection) {
+    return  '<div>' + featureCollection.features.map(function (item, i) {
+      return '<div><strong>Feature: ' + (i + 1) + '</strong><div>'  + singleFeature(item) + '</div></div><br/>';
+    }).join("") + '</div>';
+  }
+  ckan.commonDynamicLayerInfo = function (layer) {
+    layer.bindPopup(function (err, featureCollection) {
+      if (err || !featureCollection || !featureCollection.features || !featureCollection.features.length) {
+        return false;
+      }
+      if (featureCollection.features.length === 1) {
+        return singleFeature(featureCollection.features[0])
+      }
+      return manyFeatures(featureCollection);
+    }, {
+      maxHeight: 200
+    });
+  };
+  ckan.commonTiledLayerInfo = function (layer) {
+    layer.bindPopup('<span></span>', {
+      maxHeight: 200
+    });
+    layer.on('click', function (e) {
+      layer.setPopupContent('<span>loading</span>');
+      layer.identify().at(e.latlng).run(function (err, featureCollection) {
+        if (err) {
+          layer.setPopupContent('<span><strong>Error</strong>: ' + err && err.toString()+'</span>');
+          return;
+        }
+        if (!featureCollection || !featureCollection.features || !featureCollection.features.length) {
+          layer.setPopupContent('<span>No features found</span>');
+          return;
+        }
+        if (featureCollection.features.length === 1) {
+          layer.setPopupContent(singleFeature(featureCollection.features[0]));
+          return;
+        }
+        return layer.setPopupContent(manyFeatures(featureCollection));
+      });
+    })
+  };
 })(this.ckan, this.jQuery);
