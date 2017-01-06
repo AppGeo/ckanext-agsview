@@ -20,7 +20,7 @@ ckan.module('ags_fs_view', function (jQuery, _) {
 
       self.el.empty();
       self.el.append($("<div></div>").attr("id","map"));
-      self.map = ckan.commonLeafletMap('map', this.options);
+      self.map = ckan.agsCreatemap('map', this.options);
 
       // hack to make leaflet use a particular location to look for images
       L.Icon.Default.imagePath = this.options.site_url + 'img/leaflet/';
@@ -30,7 +30,12 @@ ckan.module('ags_fs_view', function (jQuery, _) {
     loadJson: function (path) {
       var self = this;
       this.layer =  L.esri.featureLayer({
-          url: path
+          url: path,
+          onEachFeature: function (feature, layer) {
+            layer.bindPopup(ckan.singleFeature(feature), {
+              maxHeight: 200
+            });
+          }
       })
       this.layer.addTo(map);
       this.getMetaData();
@@ -55,31 +60,6 @@ ckan.module('ags_fs_view', function (jQuery, _) {
       }).done(function (d) {
         this.cache[path] = d;
       }));
-    },
-    loadDynamic: function (path) {
-      var self = this;
-      this.getInfo(path).then(function (metadata) {
-        if (self.isTiled(metadata)) {
-          self.layer =  L.esri.tiledMapLayer({
-              url: path
-          });
-          ckan.commonDynamicLayerInfo(self.layer);
-        } else {
-          self.layer =  L.esri.dynamicMapLayer({
-              url: path
-          });
-          ckan.commonTiledLayerInfo(self.layer, self.map);
-        }
-        self.layer.addTo(map);
-        var extent = metadata.extent || metadata.initialExtent || metadata.fullExtent;
-        var wkid = extent.spatialReference.latestWkid;
-        return self.getProj(wkid).then(function (d) {
-          var prj = proj4(d);
-          var bl = prj.inverse([extent.xmin, extent.ymin]);
-          var tr = prj.inverse([extent.xmax, extent.ymax]);
-          self.map.fitBounds([bl.reverse(), tr.reverse()]);
-        });
-      });
     },
     getProj: function(wkid) {
       var self = this;
