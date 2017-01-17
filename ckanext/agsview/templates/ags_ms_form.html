@@ -1,6 +1,6 @@
 
 {% import 'macros/form.html' as form %}
 
-{{ form.input('ags_url', id='field-ags_url', label=_('ags url'), placeholder=_('eg. http://.../MapServer'), value=data.ags_url, error=errors.ags_url, classes=['control-full', 'control-large']) }}
-{{ form.input('layer_ids', id='field-layer_ids', label=_('layer ids'), placeholder=_('Leave blank to return all layers'), value=data.layer_ids, error=errors.layer_ids, classes=['control-full', 'control-large']) }}
-{{ form.input('basemap_url', id='field-basemap_url', label=_('basemap url'), placeholder=_('eg. http://.../tile/{z}/{x}/{y}'), value=data.basemap_url, error=errors.basemap_url, classes=['control-full', 'control-large']) }}
+{{ form.input('ms_ags_url', id='field-ms_ags_url', label=_('ags url'), placeholder=_('eg. http://.../MapServer'), value=data.ms_ags_url, error=errors.ms_ags_url, classes=['control-full', 'control-large']) }}
+{{ form.input('ms_layer_ids', id='field-ms_layer_ids', label=_('layer ids'), placeholder=_('Leave blank to return all layers'), value=data.ms_layer_ids, error=errors.ms_layer_ids, classes=['control-full', 'control-large']) }}
+{{ form.input('ms_basemap_url', id='field-ms_basemap_url', label=_('basemap url'), placeholder=_('eg. http://.../tile/{z}/{x}/{y}'), value=data.ms_basemap_url, error=errors.ms_basemap_url, classes=['control-full', 'control-large']) }}

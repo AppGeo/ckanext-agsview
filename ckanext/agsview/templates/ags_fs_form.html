@@ -1,4 +1,4 @@
 {% import 'macros/form.html' as form %}
 
-{{ form.input('ags_url', id='field-ags_url', label=_('ags url'), placeholder=_('eg. http://.../MapServer/0'), value=data.ags_url, error=errors.ags_url, classes=['control-full', 'control-large']) }}
-{{ form.input('basemap_url', id='field-basemap_url', label=_('basemap url'), placeholder=_('eg. http://.../tile/{z}/{x}/{y}'), value=data.basemap_url, error=errors.basemap_url, classes=['control-full', 'control-large']) }}
+{{ form.input('fs_ags_url', id='field-fs_ags_url', label=_('ags url'), placeholder=_('eg. http://.../MapServer/0'), value=data.fs_ags_url, error=errors.ags_url, classes=['control-full', 'control-large']) }}
+{{ form.input('fs_basemap_url', id='field-fs_basemap_url', label=_('basemap url'), placeholder=_('eg. http://.../tile/{z}/{x}/{y}'), value=data.fs_basemap_url, error=errors.fs_basemap_url, classes=['control-full', 'control-large']) }}

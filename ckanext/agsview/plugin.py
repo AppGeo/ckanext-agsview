@@ -53,8 +53,8 @@ class AGSFSView(p.SingletonPlugin):
                 'title': p.toolkit._('ArcGIS FeatureServer Service'),
                 'icon': 'compass',
                 'schema': {
-                    'ags_url': [ignore_empty, unicode],
-                    'basemap_url': [ignore_empty, unicode]
+                    'fs_ags_url': [ignore_empty, unicode],
+                    'fs_basemap_url': [ignore_empty, unicode]
                 },
                 'iframed': False,
                 'default_title': p.toolkit._('ArcGIS FeatureServer Service'),
@@ -83,9 +83,9 @@ class AGSMSView(p.SingletonPlugin):
                 'title': p.toolkit._('ArcGIS MapServer Service'),
                 'icon': 'compass',
                 'schema': {
-                    'ags_url': [ignore_empty, unicode],
-                    'basemap_url': [ignore_empty, unicode],
-                    'layer_ids': [ignore_empty, unicode]
+                    'ms_ags_url': [ignore_empty, unicode],
+                    'ms_basemap_url': [ignore_empty, unicode],
+                    'ms_layer_ids': [ignore_empty, unicode]
                 },
                 'iframed': False,
                 'default_title': p.toolkit._('ArcGIS MapServer Service'),
