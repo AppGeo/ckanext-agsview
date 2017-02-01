@@ -69,7 +69,7 @@ ckan.module('ags_fs_view', function (jQuery, _) {
       if (this.projs[wkid]) {
         return Promise.resolve(this.projs[wkid]);
       }
-      var url = 'http://epsg.io/' + wkid + '.proj4';
+      var url = 'https://epsg.io/' + wkid + '.proj4';
 
       return Promise.resolve(jQuery.ajax(url).done(function (d) {
         self.projs[wkid] = d;
