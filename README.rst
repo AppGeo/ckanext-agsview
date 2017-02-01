@@ -86,7 +86,7 @@ To install ckanext-agsview for development:
     cd ckanext-agsview
     python setup.py install
 
-* When running in a development environment, replace install with develop
+* When running in a development environment, replace install with develop::
 
     python setup.py develop
 
