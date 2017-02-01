@@ -3,7 +3,7 @@
   id="data-preview"
   data-module-site_url="{{ h.dump_json(h.url('/', locale='default', qualified=true)) }}"
   data-module-layer_ids="{{ resource_view.get('layer_ids') or '' }}"
-  data-module-path="{{ resource_view.get('ags_url') or c.resource.url }}"
+  data-module-path="{{ resource_view.get('ags_url') or resource.url }}"
   data-module-basemap="{{ resource_view.get('basemap_url') or h.ags_view_default_basemap_url() }}">
     <h4 class="loading-dialog">
       <div class="loading-spinner"></div>
