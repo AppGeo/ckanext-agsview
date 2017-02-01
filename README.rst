@@ -66,30 +66,8 @@ Can accept `Esri basemap name <http://esri.github.io/esri-leaflet/api-reference/
   ckanext.agsview.default_basemap_url = http://example.com/MapServer/tile//{z}/{x}/{y}
 
 
-------------
-Installation
-------------
-
-To install ckanext-agsview on a production site:
-
-1. Activate your CKAN virtual environment, for example::
-
-    . /usr/lib/ckan/default/bin/activate
-
-2. Install the ckanext-agsview Python package into your virtual environment::
-
-    pip install ckanext-agsview
-
-3. Add ``ags_fs_view`` and/or ``ags_ms_view`` to the ``ckan.plugins`` setting in your CKAN config (ini) file (by default the config file is located at ``/etc/ckan/default/production.ini``)::
-
-    ckan.plugins = ... ags_fs_view ags_ms_view
-
-4. Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu::
-
-     sudo service apache2 reload
-
 ------------------------
-Development Installation
+Installation
 ------------------------
 
 To install ckanext-agsview for development:
@@ -106,9 +84,19 @@ To install ckanext-agsview for development:
 3. Install the ckanext-agsview Python package into your python virtual environment::
 
     cd ckanext-agsview
+    python setup.py install
+
+* When running in a development environment, replace install with develop
+
     python setup.py develop
 
-4. Continue with the main installation instructions above (step 3 onwards).
+4. Add ``ags_fs_view`` and/or ``ags_ms_view`` to the ``ckan.plugins`` setting in your CKAN config (ini) file (by default the config file is located at ``/etc/ckan/default/production.ini``)::
+
+    ckan.plugins = ... ags_fs_view ags_ms_view
+
+5. Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu::
+
+     sudo service apache2 reload
 
 Quick development Install
 -------------------------
