@@ -1,5 +1,5 @@
 # encoding: utf-8
-
+import json
 import logging
 import ckan.plugins as p
 
@@ -24,6 +24,14 @@ def ags_view_default_basemap_url():
 
 def ags_view_proxy():
     return config.get('ckanext.ags_view_proxy', '')
+
+
+def with_proxy(url):
+    text = url
+    proxies = json.loads(ags_view_proxy())
+    for p in proxies:
+        text = text.replace(p, proxies[p])
+    return text
 
 
 class AGSFSView(p.SingletonPlugin):
@@ -68,7 +76,8 @@ class AGSFSView(p.SingletonPlugin):
 
     def get_helpers(self):
         h = {'ags_view_default_basemap_url': ags_view_default_basemap_url,
-             'ags_view_proxy': ags_view_proxy}
+             'ags_view_proxy': ags_view_proxy,
+             'with_proxy': with_proxy}
         return h
 
 
