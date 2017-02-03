@@ -91,14 +91,18 @@ ckan.module('ags_fs_view', function (jQuery, _) {
         }
         var extent = metadata.extent || metadata.initialExtent || metadata.fullExtent;
         var wkid = extent.spatialReference.latestWkid;
-
-        self.getProj(wkid).then(function (d) {
+        function after (d) {
           var prj = proj4(d);
           var bl = prj.inverse([extent.xmin, extent.ymin]);
           var tr = prj.inverse([extent.xmax, extent.ymax]);
           self.map.fitBounds([bl.reverse(), tr.reverse()]);
-        })
-
+        }
+        if (wkid) {
+          return self.getProj(wkid).then(after)
+        }
+        if (extent.spatialReference.wkt) {
+          return after(extent.spatialReference.wkt);
+        }
       });
     },
     showPreview: function (geojsonFeature) {
