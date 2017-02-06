@@ -90,7 +90,7 @@ ckan.module('ags_fs_view', function (jQuery, _) {
           throw error;
         }
         var extent = metadata.extent || metadata.initialExtent || metadata.fullExtent;
-        var wkid = extent.spatialReference.latestWkid;
+        var wkid = extent.spatialReference.latestWkid || extent.spatialReference.wkid;
         function after (d) {
           var prj = proj4(d);
           var bl = prj.inverse([extent.xmin, extent.ymin]);
