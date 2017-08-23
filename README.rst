@@ -28,7 +28,7 @@ The ArcGIS Feature Layer Viewer provides access to different ArcGIS Feature Laye
 
   ::
 
-    http://gis.cityofboston.gov/arcgis/rest/services/Basemaps/base_map_webmercatorV2/MapServer/tile/{z}/{x}/{y}
+    http://gis.cityofboston.gov/arcgis/rest/services/Basemaps/base_map_webmercatorV2/MapServer/tile/{z}/{y}/{x}
 
 ArcGIS MapService Viewer (ags_ms_view)
 --------------------------------------
@@ -49,7 +49,7 @@ The ArcGIS MapServer Viewer provides access to MapService and the ability to set
 
   ::
 
-    http://gis.cityofboston.gov/arcgis/rest/services/Basemaps/base_map_webmercatorV2/MapServer/tile/{z}/{x}/{y}
+    http://gis.cityofboston.gov/arcgis/rest/services/Basemaps/base_map_webmercatorV2/MapServer/tile/{z}/{y}/{x}
 
 ----------------------------
 Configuration Options (.ini)
@@ -63,7 +63,7 @@ Can accept `Esri basemap name <http://esri.github.io/esri-leaflet/api-reference/
 
 ::
 
-  ckanext.agsview.default_basemap_url = http://example.com/MapServer/tile//{z}/{x}/{y}
+  ckanext.agsview.default_basemap_url = http://example.com/MapServer/tile//{z}/{y}/{x}
 
 
 ------------------------
