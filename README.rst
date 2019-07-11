@@ -59,11 +59,11 @@ Configuration Options (.ini)
 
 Can accept `Esri basemap name <http://esri.github.io/esri-leaflet/api-reference/layers/basemap-layer.html>`_ or generic tile url template::
 
-  ckanext.agsview.default_basemap_url = Gray
+  ckanext.ags_view_default_basemap_url = Gray
 
 ::
 
-  ckanext.agsview.default_basemap_url = http://example.com/MapServer/tile//{z}/{x}/{y}
+  ckanext.ags_view_proxy = {} 
 
 
 ------------------------
@@ -75,7 +75,7 @@ To install ckanext-agsview for development:
 1. Clone the source::
 
     cd /usr/lib/ckan/default/src
-    git clone https://github.com/ckan/ckanext-agsview.git
+    git clone https://github.com/OpenGov-OpenData/ckanext-agsview.git
 
 2. Activate your CKAN virtual environment, for example::
 
