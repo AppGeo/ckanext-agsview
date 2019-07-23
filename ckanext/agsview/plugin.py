@@ -23,7 +23,7 @@ def ags_view_default_basemap_url():
 
 
 def ags_view_proxy():
-    return config.get('ckanext.ags_view_proxy', {})
+    return config.get('ckanext.ags_view_proxy', '{}')
 
 
 def with_proxy(url):

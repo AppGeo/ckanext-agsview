@@ -63,7 +63,7 @@ Can accept `Esri basemap name <http://esri.github.io/esri-leaflet/api-reference/
 
 ::
 
-  ckanext.ags_view_proxy = {} 
+  ckanext.ags_view_proxy = '{}'
 
 
 ------------------------

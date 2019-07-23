@@ -1,3 +1,4 @@
+var date_fields = [];
 (function (ckan, jQuery) {
 
   /* Returns a Leaflet map to use on the different spatial widgets
@@ -71,6 +72,14 @@
     var keys = Object.keys(properties);
     return '<div>' + keys.map(function (key) {
       var value = properties[key];
+      if (date_fields.indexOf(key) > -1) {
+        date_value = new Date(value);
+        value = date_value.toLocaleString(undefined, {
+          year: 'numeric', month: 'numeric', day: 'numeric',
+          hour: '2-digit', minute: '2-digit', second: '2-digit',
+          timeZoneName:'short'
+        });
+      }
       return '<span><strong>' + key + ':</strong> ' + value + '</span>';
     }).join('<br/>') + '</div>';
   }
