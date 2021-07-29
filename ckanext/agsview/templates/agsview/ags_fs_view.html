@@ -1,0 +1,16 @@
+<div
+  data-module="ags_fs_view"
+  id="data-preview"
+  data-module-site_url="{{ h.dump_json(h.url('/', locale='default', qualified=true)) }}"
+  data-module-path="{{ resource_view.get('ags_url') or resource.url }}"
+  data-module-basemap="{{ resource_view.get('basemap_url') or h.ags_view_default_basemap_url() }}">
+    <h4 class="loading-dialog">
+      <div class="loading-spinner"></div>
+      <div class="left">{{ _('Loading...') }}</div>
+    </h4>
+</div>
+
+{% set snippet_type = 'asset' if h.version(h.ckan_version()) > h.version('2.9') else 'resource' %}
+{% snippet 'agsview/snippets/agsview_' ~ snippet_type ~ '.html', name='ckanext-agsview/shared_js' %}
+{% snippet 'agsview/snippets/agsview_' ~ snippet_type ~ '.html', name='ckanext-agsview/shared_css' %}
+{% snippet 'agsview/snippets/agsview_' ~ snippet_type ~ '.html', name='ckanext-agsview/ags_fs_view_js' %}

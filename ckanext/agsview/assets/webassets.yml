@@ -1,0 +1,36 @@
+shared_js:
+  filters: rjsmin
+  output: ckanext-agsview/%(version)s_shared.js
+  extra:
+    preload:
+      - base/main
+  contents:
+    - js/vendor/lie.polyfill.js
+    - js/vendor/leaflet-src.js
+    - js/vendor/esri-leaflet-debug.js
+    - js/ags_common.js
+    - js/vendor/proj4-src.js
+
+shared_css:
+  output: ckanext-agsview/%(version)s_shared.css
+  contents:
+    - css/ags_view.css
+    - css/vendor/leaflet.css
+
+ags_fs_view_js:
+  filters: rjsmin
+  output: ckanext-agsview/%(version)s_ags_fs_view.js
+  extra:
+    preload:
+      - ckanext-agsview/shared_js
+  contents:
+    - js/ags_fs_view.js
+
+ags_ms_view_js:
+  filters: rjsmin
+  output: ckanext-agsview/%(version)s_ags_ms_view.js
+  extra:
+    preload:
+      - ckanext-agsview/shared_js
+  contents:
+    - js/ags_ms_view.js
