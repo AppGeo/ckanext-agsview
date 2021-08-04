@@ -11,7 +11,7 @@ log = logging.getLogger(__name__)
 
 ignore_empty = p.toolkit.get_validator('ignore_empty')
 
-DEFAULT_AGS_FORMATS = ['ags', 'esri rest']
+DEFAULT_AGS_FORMATS = ['ags', 'esri rest', 'arcgis geoservices rest api']
 
 
 def ags_view_default_basemap_url():
@@ -38,6 +38,8 @@ class AGSFSView(p.SingletonPlugin):
     # IResourceView
 
     def can_view(self, data_dict):
+        if 'url' not in data_dict['resource']:
+            return False
         format_lower = data_dict['resource'].get('format', '').lower()
         return format_lower in DEFAULT_AGS_FORMATS
 
@@ -96,6 +98,8 @@ class AGSMSView(p.SingletonPlugin):
         }
 
     def can_view(self, data_dict):
+        if 'url' not in data_dict['resource']:
+            return False
         format_lower = data_dict['resource'].get('format', '').lower()
         return format_lower in DEFAULT_AGS_FORMATS
 
